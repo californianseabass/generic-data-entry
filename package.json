@@ -2,7 +2,11 @@
   "name": "javascript-starter",
   "packageManager": "yarn@4.0.2",
   "devDependencies": {
+    "@types/react": "^18.2.79",
+    "@types/react-dom": "^18.2.25",
     "typescript": "^5.4.5",
     "vite": "^5.2.9"
+  },
+  "dependencies": {
   }
 }
