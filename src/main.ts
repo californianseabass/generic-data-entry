@@ -1,6 +1,6 @@
 // import './index.css'
 
-function main () {
+function main() {
   console.log('main')
 }
 
