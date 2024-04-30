@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import TextField from 'components/TextField';
+import DatePicker from 'components/DatePicker';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: 'components/TextField',
-  component: TextField,
+  title: 'components/DatePicker',
+  component: DatePicker,
   parameters: {
     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
     layout: 'centered',
@@ -12,16 +12,16 @@ const meta = {
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
 
-} satisfies Meta<typeof TextField>;
+} satisfies Meta<typeof DatePicker>;
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
-export const firstName: Story = {
+export const Birthdate: Story = {
   args: {
-    label: 'First name',
+    placeholder: 'Add birthdate'
   },
 };
 
