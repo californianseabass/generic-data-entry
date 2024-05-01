@@ -19,7 +19,7 @@ export default function TextField(props: TextFieldProps): JSX.Element {
   const { label, errorMessage, ...inputProps } = props
   return (
     <div className="relative w-64 h-14 border rounded-lg">
-      <div className="absolute z-10 top-2 left-3 text-xs bg-transparent text-zinc-900">
+      <div className="absolute z-10 top-2 left-3 text-xs bg-transparent text-zinc-800">
         <span>{label}</span>
       </div>
       <span className="absolute z-10 top-2 right-3 text-xs text-red-700">
@@ -28,9 +28,10 @@ export default function TextField(props: TextFieldProps): JSX.Element {
       <input
         {...inputProps}
         className={cx(
-          'absolute inset-0 w-full h-full pt-4 pl-3 bg-zinc-100',
+          'absolute inset-0 w-full h-full pt-4 pl-3',
           'rounded-lg',
           'focus:border focus:border-zinc-400 focus:outline-none',
+          errorMessage === undefined && 'bg-zinc-100',
           errorMessage && 'bg-red-100 focus:border-red-400',
         )}
       />
