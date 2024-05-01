@@ -1,23 +1,38 @@
+import cx from 'classnames'
+
 interface TextFieldProps extends React.ComponentPropsWithoutRef<'input'> {
   /**
    * Name of the field
    */
   label: string
+
+  /**
+   * Optional field for displaying error messaging
+   */
+  errorMessage?: string
 }
 
 /**
  * Primary UI component for user interaction
  */
 export default function TextField(props: TextFieldProps): JSX.Element {
-  const { label, ...inputProps } = props
+  const { label, errorMessage, ...inputProps } = props
   return (
     <div className="relative w-64 h-14 border rounded-lg">
-      <span className="absolute z-10 top-2 left-3 text-xs bg-transparent text-zinc-900">
-        {label}
+      <div className="absolute z-10 top-2 left-3 text-xs bg-transparent text-zinc-900">
+        <span>{label}</span>
+      </div>
+      <span className="absolute z-10 top-2 right-3 text-xs text-red-700">
+        {errorMessage}
       </span>
       <input
         {...inputProps}
-        className="absolute w-full rounded-lg h-full inset-0 pt-4 pl-3 bg-zinc-100 border focus:border focus:border-zinc-400 focus:outline-none focus:padding-0"
+        className={cx(
+          'absolute inset-0 w-full h-full pt-4 pl-3 bg-zinc-100',
+          'rounded-lg',
+          'focus:border focus:border-zinc-400 focus:outline-none',
+          errorMessage && 'bg-red-100 focus:border-red-400',
+        )}
       />
     </div>
   )

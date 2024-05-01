@@ -18,10 +18,15 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-// More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
 export const firstName: Story = {
   args: {
     label: 'First name',
   },
 };
 
+export const requiredError: Story = {
+  args: {
+    label: 'First name',
+    errorMessage: 'Required'
+  }
+}
