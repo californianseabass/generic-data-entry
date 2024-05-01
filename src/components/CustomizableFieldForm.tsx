@@ -2,7 +2,7 @@ import cx from 'classnames'
 import { FormEvent, useEffect, useState } from 'react'
 import TextField from './TextField'
 import { trim } from 'lodash'
-import { AdditionalField } from './PatientData'
+import { AdditionalField } from 'PatientData'
 
 export default function CustomizableField({
   onCreateCustomizableField,

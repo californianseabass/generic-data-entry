@@ -18,6 +18,22 @@ export default {
     "./index.html",
     "./src/**/*.{ts,tsx}"
   ],
-  theme: { extend: { } },
+  theme: {
+    extend: {
+      animation: {
+        'overlay-in': 'fade-in 150ms cubic-bezier(0.16, 1, 0.3, 1)'
+      },
+      keyframes: {
+        'fade-in': {
+          from: { opacity: 0 },
+          to: { opacity: .15 }
+        },
+        'fade-out': {
+          from: { opacity: .3 },
+          to: { opacity: 0 }
+        }
+      }
+    }
+  },
   plugins: []
 }
