@@ -102,6 +102,7 @@ function AdditionalFieldsSection({
           <Dialog.Overlay className="z-30 animate-overlay-in absolute opacity-15 inset-0 bg-black" />
           <Dialog.Content className="z-30 fixed top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 bg-white p-4 rounded-lg">
             <CustomizableField
+              onDismiss={() => setIsOpen(false)}
               onCreateCustomizableField={(f) => {
                 onChangeAdditionalFields([...additionalFields, f])
                 setIsOpen(false)

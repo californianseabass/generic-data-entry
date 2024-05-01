@@ -1,4 +1,5 @@
 import cx from 'classnames'
+import { X } from 'phosphor-react'
 import { FormEvent, useEffect, useState } from 'react'
 import TextField from './TextField'
 import { trim } from 'lodash'
@@ -6,8 +7,10 @@ import { AdditionalField } from 'PatientData'
 
 export default function CustomizableField({
   onCreateCustomizableField,
+  onDismiss,
 }: {
   onCreateCustomizableField: (field: AdditionalField) => void
+  onDismiss: () => void
 }): JSX.Element {
   const [name, setName] = useState('')
   const [nameFieldError, setNameFieldError] = useState<string>()
@@ -43,8 +46,15 @@ export default function CustomizableField({
   }
 
   return (
-    <form className="flex flex-col space-y-3" onSubmit={handleSubmit}>
+    <form
+      className="relative w-full flex flex-col space-y-3"
+      onSubmit={handleSubmit}
+    >
       <h3 className="text-xl">Add custom field</h3>
+      <X
+        className="absolute right-1 -top-2 cursor-pointer"
+        onClick={onDismiss}
+      />
       <TextField
         name={name}
         errorMessage={nameFieldError}
