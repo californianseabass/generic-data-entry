@@ -27,12 +27,13 @@ export default function TextField(props: TextFieldProps): JSX.Element {
       </span>
       <input
         {...inputProps}
+        required={errorMessage === 'Required'}
         className={cx(
           'absolute inset-0 w-full h-full pt-4 pl-3',
           'rounded-lg',
           'focus:border focus:border-zinc-400 focus:outline-none',
           errorMessage === undefined && 'bg-zinc-100',
-          errorMessage && 'bg-red-100 focus:border-red-400',
+          errorMessage && 'required:bg-red-100 required:focus:border-red-400',
         )}
       />
     </div>

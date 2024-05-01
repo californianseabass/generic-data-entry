@@ -18,10 +18,22 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-// More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
-export const Birthdate: Story = {
+export const Empty: Story = {
   args: {
     placeholder: 'Add birthdate'
   },
 };
 
+export const Filled: string = {
+  args: {
+    placeholder: '',
+    date: new Date(2021, 8, 27),
+  }
+}
+
+export const Required: string = {
+  args: {
+    placeholder: 'Add birthdate',
+    errorMessage: 'Required'
+  }
+}

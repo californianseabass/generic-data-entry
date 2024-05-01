@@ -1,10 +1,11 @@
 import * as Dialog from '@radix-ui/react-dialog'
-import { ReactNode, useState } from 'react'
+import { FormEvent, ReactNode, useEffect, useState } from 'react'
 import TextField from './TextField'
 import { Patient } from 'PatientData'
 import DatePicker from './DatePicker'
 import AddressField from './AddressField'
 import CustomizableField from './CustomizableFieldForm'
+import { trim } from 'lodash'
 
 interface PatientDataFormProps {
   patient?: Patient
@@ -41,14 +42,20 @@ function SectionLayout({
 interface NameSectionProps {
   name: Patient['name']
   onChangeName: (name: Patient['name']) => void
+  invalidFields: { first: boolean; last: boolean }
 }
-function NameSection({ name, onChangeName }: NameSectionProps): JSX.Element {
+function NameSection({
+  name,
+  onChangeName,
+  invalidFields,
+}: NameSectionProps): JSX.Element {
   return (
     <div className="flex-col space-y-2">
       <TextField
         value={name.firstName}
         onChange={(e) => onChangeName({ ...name, firstName: e.target.value })}
         label="First name"
+        errorMessage={invalidFields.first ? 'Required' : undefined}
       />
       <TextField
         value={name.middleName}
@@ -59,6 +66,7 @@ function NameSection({ name, onChangeName }: NameSectionProps): JSX.Element {
         value={name.lastName}
         onChange={(e) => onChangeName({ ...name, lastName: e.target.value })}
         label="Last name"
+        errorMessage={invalidFields.last ? 'Required' : undefined}
       />
     </div>
   )
@@ -127,9 +135,14 @@ export default function PatientDataForm({
       lastName: '',
     },
   )
+  const [invalidNameFields, setInvalidNameFields] = useState({
+    first: false,
+    last: false,
+  })
   const [birthdate, setBirthdate] = useState<Date | undefined>(
     patient?.birthdate,
   )
+  const [invalidBirthdate, setInvalidBirthdate] = useState(false)
   const [address, setAddress] = useState(
     patient?.address ?? {
       street: '',
@@ -138,21 +151,97 @@ export default function PatientDataForm({
       zipcode: '',
     },
   )
+  const [invalidAddressFields, setInvalidAddressFields] = useState({
+    street: false,
+    city: false,
+    state: false,
+    zipcode: false,
+  })
 
   const [additionalFields, setAdditionalFields] = useState<
     Patient['additionalFields']
   >(patient?.additionalFields ?? [])
 
+  // Reset error messages when user types something in
+  useEffect(() => {
+    if (invalidNameFields.first && trim(name.firstName).length) {
+      setInvalidNameFields({ ...invalidNameFields, first: false })
+    }
+    if (invalidNameFields.last && trim(name.lastName).length) {
+      setInvalidNameFields({ ...invalidNameFields, last: false })
+    }
+  }, [name])
+
+  useEffect(() => {
+    if (invalidBirthdate) {
+      setInvalidBirthdate(false)
+    }
+  }, [birthdate])
+
+  useEffect(() => {
+    if (invalidAddressFields.street && trim(address.street).length) {
+      setInvalidAddressFields({ ...invalidAddressFields, street: false })
+    }
+    if (invalidAddressFields.city && trim(address.city).length) {
+      setInvalidAddressFields({ ...invalidAddressFields, city: false })
+    }
+    if (invalidAddressFields.state && trim(address.state).length) {
+      setInvalidAddressFields({ ...invalidAddressFields, state: false })
+    }
+    if (invalidAddressFields.zipcode && trim(address.zipcode).length) {
+      setInvalidAddressFields({ ...invalidAddressFields, zipcode: false })
+    }
+  }, [address])
+
+  function handleFormSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    if (
+      trim(name.firstName) === '' ||
+      trim(name.lastName) === '' ||
+      trim(address.street) === '' ||
+      trim(address.city) === '' ||
+      trim(address.state) === '' ||
+      trim(address.zipcode) === '' ||
+      patient?.birthdate == null
+    ) {
+      setInvalidNameFields({
+        first: trim(name.firstName) == '',
+        last: trim(name.lastName) === '',
+      })
+      setInvalidAddressFields({
+        street: trim(address.street) === '',
+        city: trim(address.city) === '',
+        state: trim(address.state) === '',
+        zipcode: trim(address.zipcode) === '',
+      })
+      setInvalidBirthdate(birthdate == null)
+      return
+    }
+
+    onFormSubmit()
+  }
+
   return (
-    <form className="flex flex-col space-y-6" onSubmit={onFormSubmit} action="">
+    <form
+      className="flex flex-col space-y-6"
+      onSubmit={handleFormSubmit}
+      action=""
+    >
       <SectionLayout
         name="Name"
-        section={<NameSection name={name} onChangeName={setName} />}
+        section={
+          <NameSection
+            name={name}
+            onChangeName={setName}
+            invalidFields={invalidNameFields}
+          />
+        }
       />
       <SectionLayout
         name="Date of Birth"
         section={
           <DatePicker
+            errorMessage={invalidBirthdate ? 'Required' : undefined}
             date={birthdate}
             placeholder="Add birthdate"
             onChangeDate={setBirthdate}
@@ -161,7 +250,13 @@ export default function PatientDataForm({
       />
       <SectionLayout
         name="Address"
-        section={<AddressField address={address} onChange={setAddress} />}
+        section={
+          <AddressField
+            address={address}
+            invalidFields={invalidAddressFields}
+            onChange={setAddress}
+          />
+        }
       />
       <SectionLayout
         name="Additional fields"
