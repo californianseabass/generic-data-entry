@@ -19,9 +19,9 @@ export default function TextField(props: TextFieldProps): JSX.Element {
   const { label, errorMessage, ...inputProps } = props
   return (
     <div className="relative w-64 h-14 border rounded-lg">
-      <div className="absolute z-10 top-2 left-3 text-xs bg-transparent text-zinc-800">
-        <span>{label}</span>
-      </div>
+      <span className="absolute font-medium z-10 top-2 left-3 text-xs bg-transparent text-zinc-800">
+        {label}
+      </span>
       <span className="absolute z-10 top-2 right-3 text-xs text-red-700">
         {errorMessage}
       </span>
