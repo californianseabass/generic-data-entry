@@ -2,51 +2,106 @@ import {
   createColumnHelper,
   flexRender,
   getCoreRowModel,
+  getFilteredRowModel,
   useReactTable,
 } from '@tanstack/react-table'
 import { Patient, Status } from 'PatientData'
-import { join } from 'lodash'
+import { isDate, join, trim } from 'lodash'
+import { useMemo } from 'react'
 
 interface PatientRow {
   name: string
   birthdate: string
   status: Status
+  city: string
+}
+
+interface Filters {
+  name?: string
+  status?: Patient['status']
+  age?: number
+  city?: string
 }
 
 export default function PatientTable({
   patients,
+  filters,
+  ...props
 }: {
   patients: Patient[]
+  nameFilter?: string
+  filters?: Filters
 }): JSX.Element {
   const columnHelper = createColumnHelper<PatientRow>()
+
+  const columnFilters = useMemo(() => {
+    return [
+      ...(filters && trim(filters.name).length > 0
+        ? [{ id: 'name', value: props.nameFilter }]
+        : []),
+      ...(filters && trim(filters?.status ?? '').length > 0
+        ? [{ id: 'status', value: filters.status }]
+        : []),
+      ...(filters && filters.age != null
+        ? [{ id: 'birthdate', value: filters.age }]
+        : []),
+      ...(filters && trim(filters?.city ?? '').length > 0
+        ? [{ id: 'city', value: filters.city }]
+        : []),
+    ]
+  }, [filters])
+
   const columns = [
     columnHelper.accessor('name', {
       id: 'name',
       cell: (info) => info.getValue(),
       header: 'Name',
     }),
+    columnHelper.accessor('status', {
+      id: 'status',
+      cell: (info) => info.getValue(),
+      header: 'Status',
+    }),
     columnHelper.accessor('birthdate', {
       id: 'birthdate',
       cell: (info) => info.getValue(),
       header: 'Date of Birth',
+      filterFn: 'ageFilterFunction', // age
     }),
-    columnHelper.accessor('status', {
-      id: 'status',
+    columnHelper.accessor('city', {
+      id: 'city',
       cell: (info) => info.getValue(),
-      header: 'Status'
-    })
+      header: 'City',
+    }),
   ]
 
-  const patientRows = patients.map(({ name, birthdate, status }) => ({
-    name: join([name.firstName, name.middleName, name.lastName], ' '),
-    birthdate: `${birthdate.getMonth() + 1}/${birthdate.getDate() + 1}/${birthdate.getFullYear()}`,
-    status
-  }))
+  const patientRows = useMemo(
+    () =>
+      patients.map(({ name, birthdate, status, address }) => ({
+        name: join([name.firstName, name.middleName, name.lastName], ' '),
+        birthdate: `${birthdate.getMonth() + 1}/${birthdate.getDate() + 1}/${birthdate.getFullYear()}`,
+        status,
+        city: address.city,
+      })),
+    [patients],
+  )
 
   const table = useReactTable({
     data: patientRows,
+    state: { columnFilters },
     columns,
     getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    filterFns: {
+      ageFilterFunction: (row, columnId, filterValue) => {
+        const birthdate = new Date(row.getValue(columnId))
+        if (!isDate(birthdate)) {
+          throw new Error('Expected birthdate to be a date!')
+        }
+        const age = new Date().getFullYear() - birthdate.getFullYear()
+        return age === filterValue
+      },
+    },
   })
 
   return (

@@ -3,7 +3,7 @@ import PatientTable from 'components/PatientTable'
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: 'Example/PatientTable',
+  title: 'components/PatientTable',
   component: PatientTable,
   parameters: {
     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
@@ -114,8 +114,79 @@ const Steller = {
     { name: 'Family', value: 'Corvidae', type: 'number' },
   ],
 }
-export const PatientOne: Story = {
+
+const SparrowB = {
+  name: {
+    firstName: 'Rock',
+    middleName: '&Roll',
+    lastName: 'Sparrow',
+  },
+  address: {
+    street: '7321 Montalke',
+    city: 'Seattle',
+    state: 'WA',
+    zipcode: '98011',
+  },
+  birthdate: new Date(2021, 1, 18),
+  status: 'Active',
+  additionalFields: [{ name: 'Family', value: 'Corvidae', type: 'number' }],
+}
+
+const SparrowTwo = {
+  name: {
+    firstName: 'Common',
+    middleName: 'Edward',
+    lastName: 'Sparrow',
+  },
+  address: {
+    street: '117 Broadway',
+    city: 'Seattle',
+    state: 'WA',
+    zipcode: '98011',
+  },
+  birthdate: new Date(2022, 3, 17),
+  status: 'Active',
+  additionalFields: [{ name: 'Family', value: 'Corvidae', type: 'number' }],
+}
+
+export const AllPatients: Story = {
   args: {
-    patients: [Sparrow, Penguin, GoldFinch, Chickadee, Steller],
+    patients: [
+      Sparrow,
+      Penguin,
+      GoldFinch,
+      Chickadee,
+      Steller,
+      SparrowB,
+      SparrowTwo,
+    ],
+  },
+}
+
+export const FilteredByName: Story = {
+  args: {
+    ...AllPatients.args,
+    filters: { name: 'Sparrow' },
+  },
+}
+
+export const FilteredByStatus: String = {
+  args: {
+    ...AllPatients.args,
+    filters: { status: 'Active' },
+  },
+}
+
+export const FilteredByAge: String = {
+  args: {
+    ...AllPatients.args,
+    filters: { age: 2 },
+  },
+}
+
+export const FilteredByCity: String = {
+  args: {
+    ...AllPatients.args,
+    filters: { city: 'Seattle' },
   },
 }
