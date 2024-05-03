@@ -30,6 +30,7 @@ const Sparrow = {
     zipcode: '01001',
   },
   birthdate: new Date(2018, 4, 16),
+  status: 'Active',
   additionalFields: [{ name: 'Insolyn Readout', value: 77, type: 'number' }],
 }
 
@@ -46,6 +47,7 @@ const Penguin = {
     zipcode: '10001',
   },
   birthdate: new Date(2022, 1, 27),
+  status: 'Active',
   additionalFields: [
     { name: 'Wing Span', value: 48, type: 'number' },
     { name: 'Scientific name', value: 'Aptenodytes forsteri', type: 'string' },
@@ -65,6 +67,7 @@ const GoldFinch = {
     zipcode: '18001',
   },
   birthdate: new Date(2023, 9, 7),
+  status: 'Onboarding',
   additionalFields: [
     { name: 'Wing Span', value: 7, type: 'number' },
     { name: 'Scientific name', value: 'Spinus tristis', type: 'string' },
@@ -85,6 +88,7 @@ const Chickadee = {
     zipcode: '98041',
   },
   birthdate: new Date(2023, 9, 7),
+  status: 'Active',
   additionalFields: [
     { name: 'Scientific name', value: 'Poecile atricapillus', type: 'string' },
     { name: 'Family', value: 'Passerine', type: 'number' },
@@ -104,6 +108,7 @@ const Steller = {
     zipcode: '98011',
   },
   birthdate: new Date(2020, 10, 11),
+  status: 'Inquiry',
   additionalFields: [
     { name: 'Scientific name', value: 'Cyanocitta stelleri', type: 'string' },
     { name: 'Family', value: 'Corvidae', type: 'number' },

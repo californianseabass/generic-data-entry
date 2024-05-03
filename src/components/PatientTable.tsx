@@ -4,12 +4,13 @@ import {
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table'
-import { Patient } from 'PatientData'
+import { Patient, Status } from 'PatientData'
 import { join } from 'lodash'
 
 interface PatientRow {
   name: string
   birthdate: string
+  status: Status
 }
 
 export default function PatientTable({
@@ -29,11 +30,17 @@ export default function PatientTable({
       cell: (info) => info.getValue(),
       header: 'Date of Birth',
     }),
+    columnHelper.accessor('status', {
+      id: 'status',
+      cell: (info) => info.getValue(),
+      header: 'Status'
+    })
   ]
 
-  const patientRows = patients.map(({ name, birthdate }) => ({
+  const patientRows = patients.map(({ name, birthdate, status }) => ({
     name: join([name.firstName, name.middleName, name.lastName], ' '),
     birthdate: `${birthdate.getMonth() + 1}/${birthdate.getDate() + 1}/${birthdate.getFullYear()}`,
+    status
   }))
 
   const table = useReactTable({
