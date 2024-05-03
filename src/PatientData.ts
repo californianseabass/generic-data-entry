@@ -1,3 +1,5 @@
+import { isNumber, isString } from 'lodash'
+
 interface Name {
   firstName: string
   middleName: string
@@ -25,13 +27,23 @@ interface CustomizableString {
   value: string
 }
 
+function isCustomizableString(obj: any): obj is CustomizableString {
+  return isString(obj?.name) && obj?.type === 'string' && isString(obj?.value)
+}
+
 interface CustomizableNumber {
   name: string
   type: 'number'
   value: number
 }
+function isCustomizableNumber(obj: any): obj is CustomizableNumber {
+  return isString(obj?.name)  && obj?.type === 'number' && isNumber(obj?.value)
+}
 
 export type AdditionalField = CustomizableString | CustomizableNumber
+export function isAdditionalField(obj: any): obj is AdditionalField {
+  return isCustomizableString(obj) || isCustomizableNumber(obj)
+}
 
 export interface Patient {
   name: Name

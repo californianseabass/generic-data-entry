@@ -1,7 +1,7 @@
 import * as Dialog from '@radix-ui/react-dialog'
 import { FormEvent, ReactNode, useEffect, useState } from 'react'
 import TextField from './TextField'
-import { Patient } from 'PatientData'
+import { Patient, isAdditionalField } from 'PatientData'
 import DatePicker from './DatePicker'
 import AddressField from './AddressField'
 import CustomizableField from './CustomizableFieldForm'
@@ -89,14 +89,15 @@ function AdditionalFieldsSection({
       {additionalFields.map((f, i) => (
         <TextField
           onChange={(e) => {
-            onChangeAdditionalFields([
+            const fields = [
               ...additionalFields.slice(0, i),
               {
                 ...f,
                 value: e.target.value,
               },
               ...additionalFields.slice(i + 1),
-            ])
+            ]
+            onChangeAdditionalFields(fields.filter(isAdditionalField))
           }}
           label={f.name}
           value={f.value}
