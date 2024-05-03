@@ -31,18 +31,29 @@ export default function CustomizableField({
       setNameFieldError('Required')
       return
     }
-    onCreateCustomizableField({
-      name,
-      type: ['string', 'number'][type],
-      value,
-    })
+    const fieldType: AdditionalField['type'] = type === 0 ? 'string' : 'number'
+    if (fieldType === 'string' && typeof value === 'string') {
+      onCreateCustomizableField({
+        name,
+        type: fieldType,
+        value,
+      })
+      return
+    }
+    if (fieldType === 'number' && typeof value === 'number') {
+      onCreateCustomizableField({
+        name,
+        type: fieldType,
+        value,
+      })
+      return
+    }
+
+    console.error('mistmatch in field type and data type')
   }
 
   return (
-    <form
-      className="relative w-full flex flex-col space-y-3"
-      onSubmit={handleSubmit}
-    >
+    <form className="relative flex flex-col space-y-3" onSubmit={handleSubmit}>
       <h3 className="text-xl">Add custom field</h3>
       <X
         className="absolute right-1 -top-2 cursor-pointer"
@@ -61,7 +72,7 @@ export default function CustomizableField({
         onSelect={setType}
       />
       <TextField
-        type={type === 1 ? 'number': ''}
+        type={type === 1 ? 'number' : ''}
         name={name}
         value={value}
         onChange={(e) => setValue(e.target.value)}

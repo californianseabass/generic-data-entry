@@ -12,5 +12,7 @@
     "skipLibCheck": true,
     "baseUrl": "src",
     "noEmit": true
-  }
+  },
+  "include": ["src"],
+  "exclude": ["**/*.stories.tsx"],
 }

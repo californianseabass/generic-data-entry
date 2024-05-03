@@ -11,6 +11,14 @@ interface Address {
   zipcode: string
 }
 
+export const PATIENT_STATUS = [
+  'Inquiry',
+  'Onboarded',
+  'Active',
+  'Churned',
+] as const
+export type Status = (typeof PATIENT_STATUS)[number]
+
 interface CustomizableString {
   name: string
   type: 'string'
@@ -27,7 +35,8 @@ export type AdditionalField = CustomizableString | CustomizableNumber
 
 export interface Patient {
   name: Name
-  address: Address
   birthdate: Date
+  status: Status
+  address: Address
   additionalFields: AdditionalField[]
 }
