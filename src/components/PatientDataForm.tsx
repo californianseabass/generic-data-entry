@@ -6,6 +6,7 @@ import DatePicker from './DatePicker'
 import AddressField from './AddressField'
 import CustomizableField from './CustomizableFieldForm'
 import { trim } from 'lodash'
+import RadioSelection from './RadioSelection'
 
 interface PatientDataFormProps {
   patient?: Patient
@@ -34,7 +35,7 @@ function SectionLayout({
   return (
     <div className="flex flex-row">
       <div className="shrink-0 w-24 mt-1 text-sm text-zinc-400">{name}</div>
-      <div>{section}</div>
+      <div className="w-96">{section}</div>
     </div>
   )
 }
@@ -143,6 +144,9 @@ export default function PatientDataForm({
     patient?.birthdate,
   )
   const [invalidBirthdate, setInvalidBirthdate] = useState(false)
+
+  const [status, setStatus] = useState(2)
+
   const [address, setAddress] = useState(
     patient?.address ?? {
       street: '',
@@ -245,6 +249,17 @@ export default function PatientDataForm({
             date={birthdate}
             placeholder="Add birthdate"
             onChangeDate={setBirthdate}
+          />
+        }
+      />
+      <SectionLayout
+        name="Status"
+        section={
+          <RadioSelection
+            choices={['Inquiry', 'Onboarding', 'Active', 'Churned']}
+            selected={status}
+            onSelect={setStatus}
+            name="status"
           />
         }
       />

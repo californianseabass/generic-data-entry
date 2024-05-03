@@ -18,7 +18,7 @@ interface TextFieldProps extends React.ComponentPropsWithoutRef<'input'> {
 export default function TextField(props: TextFieldProps): JSX.Element {
   const { label, errorMessage, ...inputProps } = props
   return (
-    <div className="relative w-64 h-14 border rounded-lg">
+    <div className="relative w-full h-14 border rounded-lg">
       <span className="absolute font-medium z-10 top-2 left-3 text-xs bg-transparent text-zinc-800">
         {label}
       </span>

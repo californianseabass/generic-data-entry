@@ -4,6 +4,7 @@ import { FormEvent, useEffect, useState } from 'react'
 import TextField from './TextField'
 import { trim } from 'lodash'
 import { AdditionalField } from 'PatientData'
+import RadioSelection from './RadioSelection'
 
 export default function CustomizableField({
   onCreateCustomizableField,
@@ -15,16 +16,8 @@ export default function CustomizableField({
   const [name, setName] = useState('')
   const [nameFieldError, setNameFieldError] = useState<string>()
 
-  const [type, setType] = useState<AdditionalField['type']>('string')
+  const [type, setType] = useState<number>(0)
   const [value, setValue] = useState<number | string>('')
-
-  useEffect(() => {
-    if (type === 'number') {
-      setValue(0)
-    } else {
-      setValue('')
-    }
-  }, [type])
 
   useEffect(() => {
     if (nameFieldError) {
@@ -40,7 +33,7 @@ export default function CustomizableField({
     }
     onCreateCustomizableField({
       name,
-      type,
+      type: ['string', 'number'][type],
       value,
     })
   }
@@ -61,30 +54,14 @@ export default function CustomizableField({
         onChange={(e) => setName(e.target.value)}
         label="Name"
       />
-      <div className="flex space-x-4">
-        <div className="flex space-x-1">
-          <input
-            type="radio"
-            id="string"
-            checked={type === 'string'}
-            name="type"
-            onChange={() => setType('string')}
-          />
-          <label onClick={() => setType('string')}>Text</label>
-        </div>
-        <div className="flex space-x-1">
-          <input
-            type="radio"
-            id="number"
-            checked={type === 'number'}
-            name="type"
-            onChange={() => setType('number')}
-          />
-          <label onClick={() => setType('number')}>Numerical</label>
-        </div>
-      </div>
+      <RadioSelection
+        choices={['Text', 'Numerical']}
+        selected={type}
+        name="type"
+        onSelect={setType}
+      />
       <TextField
-        type={type === 'number' ? type : ''}
+        type={type === 1 ? 'number': ''}
         name={name}
         value={value}
         onChange={(e) => setValue(e.target.value)}
