@@ -1,3 +1,4 @@
+import CreatePatientPage from 'pages/CreatePatientPage'
 import Home from 'pages/HomePage'
 
 import React from 'react'
@@ -7,6 +8,10 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <Home />,
+  },
+  {
+    path: '/create',
+    element: <CreatePatientPage />,
   },
 ])
 

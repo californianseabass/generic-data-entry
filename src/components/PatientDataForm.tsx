@@ -207,7 +207,7 @@ export default function PatientDataForm({
       trim(address.city) === '' ||
       trim(address.state) === '' ||
       trim(address.zipcode) === '' ||
-      patient?.birthdate == null
+      birthdate == null
     ) {
       setInvalidNameFields({
         first: trim(name.firstName) == '',
