@@ -2,12 +2,14 @@ import { Patient } from 'PatientData'
 import PatientTable from 'components/PatientTable'
 import PatientTableControls from 'components/PatientTableControls'
 import { join } from 'lodash'
-import { useState } from 'react'
+import { ReactNode, useState } from 'react'
 
 export default function PatientDataView({
   patients,
+  GoToCreateNewPatientPage,
 }: {
   patients: Patient[]
+  GoToCreateNewPatientPage: ReactNode
 }): JSX.Element {
   const [filterName, setFilterName] = useState<string | null>(null)
   const [filterAge, setFilterAge] = useState<number | null>(null)
@@ -41,6 +43,7 @@ export default function PatientDataView({
         city={filterCity}
         onChangeCity={setFilterCity}
         cities={[...cities]}
+        actionButton={GoToCreateNewPatientPage}
       />
       <PatientTable
         patients={patients}

@@ -1,7 +1,7 @@
 import { Autocomplete, Input, Option, Select, Switch } from '@mui/joy'
 import { Patient } from 'PatientData'
 import { MagnifyingGlass } from 'phosphor-react'
-import { useState } from 'react'
+import { ReactNode, useState } from 'react'
 
 function AdvancedOptions({
   status,
@@ -70,34 +70,38 @@ interface PatientControlsProps
   patientNames: string[]
   name: string | null
   onChangeName: (name: string | null) => void
+  actionButton?: ReactNode
 }
 
 export default function PatientTableControls(
   props: PatientControlsProps,
 ): JSX.Element {
-  const { patientNames, name, onChangeName, ...advanced } = props
+  const { patientNames, name, onChangeName, actionButton, ...advanced } = props
   const [isShowAdvancedOptions, setIsShowAdvancedOptions] = useState(false)
 
   return (
     <div className="flex flex-col space-y-2 py-3 w-full border border-zinc-300 rounded-md">
-      <div className="flex space-x-3 px-4 items-center">
-        <div className="flex items-center">
-          <MagnifyingGlass className="text-lg m-2" />
-          <Autocomplete
-            value={name}
-            onChange={(e, newValue) => onChangeName(newValue)}
-            className="pl-4 border-none"
-            options={patientNames}
-            sx={{ width: 240 }}
-          />
+      <div className="flex justify-between pr-4">
+        <div className="flex space-x-3 px-4 items-center">
+          <div className="flex items-center">
+            <MagnifyingGlass className="text-lg m-2" />
+            <Autocomplete
+              value={name}
+              onChange={(e, newValue) => onChangeName(newValue)}
+              className="pl-4 border-none"
+              options={patientNames}
+              sx={{ width: 240 }}
+            />
+          </div>
+          <div className="flex items-center">
+            <span className="mr-2 text-xs text-zinc-500">Advanced Options</span>
+            <Switch
+              checked={isShowAdvancedOptions}
+              onChange={(e) => setIsShowAdvancedOptions(e.target.checked)}
+            />
+          </div>
         </div>
-        <div className="flex items-center">
-          <span className="mr-2 text-sm text-zinc-500">Advanced Options</span>
-          <Switch
-            checked={isShowAdvancedOptions}
-            onChange={(e) => setIsShowAdvancedOptions(e.target.checked)}
-          />
-        </div>
+        {actionButton}
       </div>
       {isShowAdvancedOptions && <AdvancedOptions {...advanced} />}
     </div>
