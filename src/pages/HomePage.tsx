@@ -1,30 +1,40 @@
-import { Button } from '@mui/joy'
 import { getAuth } from 'firebase/auth'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import PatientDataView from 'views/PatientDataView'
+import usePatients from 'hooks/usePatients'
+import { Patient } from 'PatientData'
 
 function GoToCreateNewPatientPageButton(): JSX.Element {
   return (
     <NavLink to="/create">
-      <Button variant="contained">Create New Patient</Button>
+      <button>Create New Patient</button>
     </NavLink>
   )
 }
 
 export default function HomePage(): JSX.Element {
-  const [isLoading, setIsLoading] = useState(true)
+  const [userId, setUserId] = useState<string>()
   const navigate = useNavigate()
+  const [patients, setPatients] = useState<Patient[]>([])
+
   useEffect(() => {
     const auth = getAuth()
     if (auth.currentUser === null) {
       navigate('/login')
     } else {
-      setIsLoading(false)
+      setUserId(auth.currentUser.uid)
     }
   }, [])
 
-  if (isLoading) {
+  useEffect(() => {
+    if (userId === undefined) {
+      return
+    }
+    return usePatients(userId, setPatients)
+  }, [userId])
+
+  if (userId === undefined) {
     return <div>Loading</div>
   }
 
@@ -32,7 +42,7 @@ export default function HomePage(): JSX.Element {
     <div className="fixed inset-0 flex pt-24 justify-center">
       <PatientDataView
         GoToCreateNewPatientPage={<GoToCreateNewPatientPageButton />}
-        patients={[]}
+        patients={patients}
       />
     </div>
   )
