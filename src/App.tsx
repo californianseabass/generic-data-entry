@@ -1,3 +1,4 @@
+import AuthenticationPage from 'pages/AuthenticationPage'
 import CreatePatientPage from 'pages/CreatePatientPage'
 import Home from 'pages/HomePage'
 
@@ -8,6 +9,14 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <Home />,
+  },
+  {
+    path: '/signup',
+    element: <AuthenticationPage variant="signup" />,
+  },
+  {
+    path: 'login',
+    element: <AuthenticationPage variant="login" />,
   },
   {
     path: '/create',
