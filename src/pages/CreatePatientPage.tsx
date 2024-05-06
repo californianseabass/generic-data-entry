@@ -1,11 +1,38 @@
+import { Patient } from 'PatientData'
 import PatientDataForm, { CreateNewButton } from 'components/PatientDataForm'
+import { getAuth } from 'firebase/auth'
+import { collection, doc, setDoc, getFirestore } from 'firebase/firestore'
+import { PatientDocConverter } from 'firestoreDocs'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 export default function CreatePatientPage(): JSX.Element {
+  const db = getFirestore()
   const navigate = useNavigate()
+  const [userId, setUserId] = useState('')
 
-  function handleCreatePatient() {
+  useEffect(() => {
+    const auth = getAuth()
+    if (auth.currentUser === null) {
+      navigate('/login')
+    } else {
+      setUserId(auth.currentUser.uid)
+    }
+  }, [])
+
+  function handleCreatePatient(patient: Patient) {
+    const patientRef = doc(collection(db, 'patients')).withConverter(PatientDocConverter)
+    const patientDoc = {
+      patientId: patientRef.id,
+      providers: [userId],
+      ...patient,
+    }
+    setDoc(patientRef, patientDoc)
     navigate('/')
+  }
+
+  if (userId === undefined) {
+    return <div>Loading...</div>
   }
 
   return (

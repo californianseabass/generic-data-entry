@@ -1,7 +1,7 @@
 import * as Dialog from '@radix-ui/react-dialog'
 import { FormEvent, ReactNode, useEffect, useState } from 'react'
 import TextField from './TextField'
-import { Patient, isAdditionalField } from 'PatientData'
+import { PATIENT_STATUS, Patient, isAdditionalField } from 'PatientData'
 import DatePicker from './DatePicker'
 import AddressField from './AddressField'
 import CustomizableField from './CustomizableFieldForm'
@@ -10,14 +10,14 @@ import RadioSelection from './RadioSelection'
 
 interface PatientDataFormProps {
   patient?: Patient
-  onFormSubmit: () => void
+  onFormSubmit: (patient: Patient) => void
   submitButton: ReactNode
 }
 
 export function CreateNewButton(): JSX.Element {
   return (
     <button
-      className="py-2 px-3 border-2 rounded-lg w-full max-w-96"
+      className='border rounded-md shadow-md bg-teal-600  text-white w-48 px-4 py-2'
       type="submit"
     >
       Create
@@ -223,7 +223,13 @@ export default function PatientDataForm({
       return
     }
 
-    onFormSubmit()
+    onFormSubmit({
+      name,
+      birthdate,
+      address,
+      status: PATIENT_STATUS[status],
+      additionalFields
+    })
   }
 
   return (
@@ -257,7 +263,7 @@ export default function PatientDataForm({
         name="Status"
         section={
           <RadioSelection
-            choices={['Inquiry', 'Onboarding', 'Active', 'Churned']}
+            choices={PATIENT_STATUS}
             selected={status}
             onSelect={setStatus}
             name="status"

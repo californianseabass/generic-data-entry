@@ -7,7 +7,7 @@ export default function RadioSelection({
   selected,
   onSelect,
 }: {
-  choices: string[]
+  choices: readonly string[]
   selected: number
   name: string
   onSelect: (index: number) => void
@@ -21,7 +21,7 @@ export default function RadioSelection({
       className="flex flex-row flex-wrap space-y-1 "
     >
       {choices.map((choice, i) => (
-        <div className="flex items-center ml-2">
+        <div key={i} className="flex items-center ml-2">
           <Radio.Item
             className={cx(
               'bg-white h-[20px] w-[20px] rounded-full',

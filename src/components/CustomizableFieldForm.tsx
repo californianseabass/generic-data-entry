@@ -27,6 +27,8 @@ export default function CustomizableField({
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    event.stopPropagation()
+
     if (trim(name) === '') {
       setNameFieldError('Required')
       return
@@ -80,11 +82,14 @@ export default function CustomizableField({
       />
       <div>
         <button
+          disabled={name === ''}
           className={cx(
             'w-full h-10 mt-6',
             'text-zinc-500',
-            'border border-2 rounded-lg border:zinc-800',
-            'hover:bg-zinc-300 hover:border-zinc-400',
+            'border border-2 rounded-lg ',
+            'border:teal-300',
+            'disabled:border-zinc-300 disabled:bg-transparent',
+            'hover:bg-teal-100 hover:border-teal-400',
           )}
           type="submit"
         >
