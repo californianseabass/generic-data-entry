@@ -26,10 +26,8 @@ interface Filters {
 export default function PatientTable({
   patients,
   filters,
-  ...props
 }: {
   patients: Patient[]
-  nameFilter?: string
   filters?: Filters
 }): JSX.Element {
   const columnHelper = createColumnHelper<PatientRow>()
@@ -37,7 +35,7 @@ export default function PatientTable({
   const columnFilters = useMemo(() => {
     return [
       ...(filters && trim(filters.name).length > 0
-        ? [{ id: 'name', value: props.nameFilter }]
+        ? [{ id: 'name', value: filters.name }]
         : []),
       ...(filters && trim(filters?.status ?? '').length > 0
         ? [{ id: 'status', value: filters.status }]
@@ -127,10 +125,10 @@ export default function PatientTable({
       </thead>
       <tbody>
         {table.getRowModel().rows.map((row) => (
-          <tr key={row.id}>
+          <tr className='group' key={row.id}>
             {' '}
             {row.getVisibleCells().map((cell) => (
-              <td className="border border-1 border-zinc-300 p-1" key={cell.id}>
+              <td className="border border-1 border-zinc-300 p-1 group-hover:bg-zinc-100" key={cell.id}>
                 {' '}
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}{' '}
               </td>

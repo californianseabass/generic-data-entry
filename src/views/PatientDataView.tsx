@@ -28,10 +28,11 @@ export default function PatientDataView({
   const patientNames = patients.map(({ name }) =>
     join([name.firstName, name.middleName, name.lastName], ' '),
   )
+
   const cities = new Set(
-      patients.map(
-      ({ addresses }) => addresses[0].city
-    )
+    patients
+      .filter(({ addresses }) => addresses.length > 0)
+      .map(({ addresses }) => addresses[0].city),
   )
 
   return (
