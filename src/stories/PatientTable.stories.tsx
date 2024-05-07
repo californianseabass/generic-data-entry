@@ -23,12 +23,12 @@ const Sparrow = {
     middleName: '',
     lastName: 'Sparrow',
   },
-  address: {
+  addresses: [{
     street: '42 Wallaby Way',
     city: 'Sydney',
     state: 'New South Wales',
     zipcode: '01001',
-  },
+  }],
   birthdate: new Date(2018, 4, 16),
   status: 'Active',
   additionalFields: [{ name: 'Insolyn Readout', value: 77, type: 'number' }],
@@ -40,12 +40,12 @@ const Penguin = {
     middleName: '',
     lastName: 'Penguin',
   },
-  address: {
+  addresses: [{
     street: '1 Station Way',
     city: 'Amundsen-Scott',
     state: 'Antartica',
     zipcode: '10001',
-  },
+  }],
   birthdate: new Date(2022, 1, 27),
   status: 'Active',
   additionalFields: [
@@ -60,12 +60,12 @@ const GoldFinch = {
     middleName: '',
     lastName: 'GoldFinch',
   },
-  address: {
+  addresses: [{
     street: '11 Street Lane Way',
     city: 'Juneau',
     state: 'Alaska',
     zipcode: '18001',
-  },
+  }],
   birthdate: new Date(2023, 9, 7),
   status: 'Onboarding',
   additionalFields: [
@@ -81,12 +81,12 @@ const Chickadee = {
     middleName: '',
     lastName: 'Chickadee',
   },
-  address: {
+  addresses: [{
     street: '17 Madison',
     city: 'Seattle',
     state: 'WA',
     zipcode: '98041',
-  },
+  }],
   birthdate: new Date(2023, 9, 7),
   status: 'Active',
   additionalFields: [
@@ -101,12 +101,12 @@ const Steller = {
     middleName: 'Stellar',
     lastName: 'Jay',
   },
-  address: {
+  addresses: [{
     street: '11 Broadway',
     city: 'Seattle',
     state: 'WA',
     zipcode: '98011',
-  },
+  }],
   birthdate: new Date(2020, 10, 11),
   status: 'Inquiry',
   additionalFields: [
@@ -121,12 +121,12 @@ const SparrowB = {
     middleName: '&Roll',
     lastName: 'Sparrow',
   },
-  address: {
+  addresses: [{
     street: '7321 Montalke',
     city: 'Seattle',
     state: 'WA',
     zipcode: '98011',
-  },
+  }],
   birthdate: new Date(2021, 1, 18),
   status: 'Active',
   additionalFields: [{ name: 'Family', value: 'Corvidae', type: 'number' }],
@@ -138,12 +138,12 @@ const SparrowTwo = {
     middleName: 'Edward',
     lastName: 'Sparrow',
   },
-  address: {
+  addresses: [{
     street: '117 Broadway',
     city: 'Seattle',
     state: 'WA',
     zipcode: '98011',
-  },
+  }],
   birthdate: new Date(2022, 3, 17),
   status: 'Active',
   additionalFields: [{ name: 'Family', value: 'Corvidae', type: 'number' }],

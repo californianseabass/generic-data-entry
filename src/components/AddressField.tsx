@@ -1,17 +1,10 @@
 import TextField from './TextField'
-import { Patient } from 'PatientData'
+import { EMPTY_ADDRESS, Patient } from 'PatientData'
 
 interface AddressFieldProps {
-  address?: Patient['addresses'][number]
+  address: Patient['addresses'][number]
   invalidFields?: { [fieldName in keyof Patient['addresses'][number]]: boolean }
   onChange: (address: Patient['addresses'][number]) => void
-}
-
-const EMPTY_ADDRESS = {
-  street: '',
-  city: '',
-  state: '',
-  zipcode: ''
 }
 
 export default function AddressField({

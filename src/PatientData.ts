@@ -59,6 +59,13 @@ export function isAdditionalField(obj: any): obj is AdditionalField {
   return isCustomizableString(obj) || isCustomizableNumber(obj)
 }
 
+export const EMPTY_ADDRESS = {
+  street: '',
+  city: '',
+  state: '',
+  zipcode: ''
+}
+
 export interface Patient {
   name: Name
   birthdate: Date

@@ -69,5 +69,6 @@ export const MultiAddress: Story = {
         },
       ],
     },
+    submitButton: <CreateNewButton />,
   },
 }

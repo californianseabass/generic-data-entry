@@ -10,16 +10,24 @@ interface TextFieldProps extends React.ComponentPropsWithoutRef<'input'> {
    * Optional field for displaying error messaging
    */
   errorMessage?: string
+
+  /**
+   * Optional - we want to let the user which fields are optional
+   */
+  optional?: boolean
 }
 
 /**
  * Primary UI component for user interaction
  */
 export default function TextField(props: TextFieldProps): JSX.Element {
-  const { label, errorMessage, ...inputProps } = props
+  const { label, optional, errorMessage, ...inputProps } = props
   return (
     <div className="relative w-full h-14 border rounded-lg">
-      <span className="absolute font-medium z-10 top-2 left-3 text-xs bg-transparent text-zinc-800">
+      <span className={cx(
+        "absolute font-medium z-10 top-2 left-3 text-xs bg-transparent text-zinc-800",
+        optional && "after:content-['Optional'] after:text-xs block after:ml-2 after:text-zinc-500"
+      )}>
         {label}
       </span>
       <span className="absolute z-10 top-2 right-3 text-xs text-red-700">
