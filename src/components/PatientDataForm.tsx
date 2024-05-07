@@ -1,5 +1,12 @@
 import * as Dialog from '@radix-ui/react-dialog'
-import { FormEvent, ReactNode, useEffect, useState } from 'react'
+import {
+  FormEvent,
+  ReactNode,
+  forwardRef,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import TextField from './TextField'
 import { PATIENT_STATUS, Patient, isAdditionalField } from 'PatientData'
 import DatePicker from './DatePicker'
@@ -14,31 +21,61 @@ interface PatientDataFormProps {
   submitButton: ReactNode
 }
 
-export function CreateNewButton(): JSX.Element {
-  return (
-    <button
-      className='border rounded-md shadow-md bg-teal-600  text-white w-48 px-4 py-2'
-      type="submit"
-    >
-      Create
-    </button>
-  )
-}
-
-function SectionLayout({
-  name,
-  section,
+function AddAdditionalAddress({
+  onUpdateAddresses,
 }: {
-  name: string
-  section: ReactNode
+  onUpdateAddresses: () => void
 }): JSX.Element {
   return (
-    <div className="flex flex-row">
-      <div className="shrink-0 w-24 mt-1 text-sm text-zinc-400">{name}</div>
-      <div className="w-96">{section}</div>
+    <div
+      className="w-full text-center mt-2 border border-zinc-200 p-2 cursor-pointer rounded-md"
+      onClick={onUpdateAddresses}
+    >
+      + Add additional Address
     </div>
   )
 }
+
+function addressIsInvalid(address: Patient['addresses'][number]): boolean {
+  return (
+    trim(address.street) === '' ||
+    trim(address.city) === '' ||
+    trim(address.state) === '' ||
+    trim(address.zipcode) === ''
+  )
+}
+
+function nameIsInvalid(name: Patient['name']): boolean {
+  return trim(name.firstName) === '' || trim(name.lastName) === ''
+}
+
+interface SectionLayoutProps {
+  name: string
+  secondaryLabel?: ReactNode
+  section: ReactNode
+  additionalSection?: ReactNode
+}
+
+const SectionLayoutFn: React.ForwardRefRenderFunction<
+  HTMLDivElement,
+  SectionLayoutProps
+> = (props, ref) => {
+  const { name, secondaryLabel, section, additionalSection } = props
+  return (
+    <div ref={ref} className="flex flex-row">
+      <div className="shrink-0 w-24">
+        <div className="mt-1 text-sm text-zinc-400">{name}</div>
+        {secondaryLabel !== undefined ? secondaryLabel : null}
+      </div>
+      <div className="w-96">
+        {section}
+        {additionalSection !== undefined ? additionalSection : null}
+      </div>
+    </div>
+  )
+}
+
+const SectionLayout = forwardRef(SectionLayoutFn)
 
 interface NameSectionProps {
   name: Patient['name']
@@ -106,7 +143,9 @@ function AdditionalFieldsSection({
       ))}
       <Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
         <Dialog.Trigger>
-          <div className="mt-2">+ Add custom field</div>
+          <div className="w-full text-center mt-2 border border-zinc-200 p-2 cursor-pointer rounded-md">
+            + Add custom field
+          </div>
         </Dialog.Trigger>
         <Dialog.Portal>
           <Dialog.Overlay className="z-30 animate-overlay-in absolute opacity-15 inset-0 bg-black" />
@@ -148,14 +187,14 @@ export default function PatientDataForm({
 
   const [status, setStatus] = useState(2)
 
-  const [address, setAddress] = useState(
-    patient?.address ?? {
-      street: '',
-      city: '',
-      state: '',
-      zipcode: '',
-    },
+  const [addresses, setAddresses] = useState<Patient['addresses']>(
+    patient?.addresses ?? [],
   )
+
+  const nameRef = useRef<HTMLDivElement>(null)
+  const birthdateRef = useRef<HTMLDivElement>(null)
+  const addressRef = useRef<HTMLDivElement>(null)
+
   const [invalidAddressFields, setInvalidAddressFields] = useState({
     street: false,
     city: false,
@@ -184,6 +223,7 @@ export default function PatientDataForm({
   }, [birthdate])
 
   useEffect(() => {
+    const address = addresses[0]
     if (invalidAddressFields.street && trim(address.street).length) {
       setInvalidAddressFields({ ...invalidAddressFields, street: false })
     }
@@ -196,19 +236,19 @@ export default function PatientDataForm({
     if (invalidAddressFields.zipcode && trim(address.zipcode).length) {
       setInvalidAddressFields({ ...invalidAddressFields, zipcode: false })
     }
-  }, [address])
+  }, [addresses])
+
+  function createNewAddress(): void {
+    setAddresses([
+      ...addresses,
+      { street: '', city: '', state: '', zipcode: '' },
+    ])
+  }
 
   function handleFormSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    if (
-      trim(name.firstName) === '' ||
-      trim(name.lastName) === '' ||
-      trim(address.street) === '' ||
-      trim(address.city) === '' ||
-      trim(address.state) === '' ||
-      trim(address.zipcode) === '' ||
-      birthdate == null
-    ) {
+    const address = addresses[0]
+    if (nameIsInvalid(name) || addressIsInvalid(address) || birthdate == null) {
       setInvalidNameFields({
         first: trim(name.firstName) == '',
         last: trim(name.lastName) === '',
@@ -220,15 +260,23 @@ export default function PatientDataForm({
         zipcode: trim(address.zipcode) === '',
       })
       setInvalidBirthdate(birthdate == null)
+      if (nameIsInvalid(name) && nameRef?.current != null) {
+        nameRef.current.scrollIntoView()
+      } else if (birthdate === null && birthdateRef?.current != null) {
+        birthdateRef?.current.scrollIntoView()
+      } else if (addressIsInvalid(address) && addressRef?.current !== null) {
+        addressRef?.current.scrollIntoView()
+      }
+
       return
     }
 
     onFormSubmit({
       name,
       birthdate,
-      address,
+      addresses,
       status: PATIENT_STATUS[status],
-      additionalFields
+      additionalFields,
     })
   }
 
@@ -239,6 +287,7 @@ export default function PatientDataForm({
       action=""
     >
       <SectionLayout
+        ref={nameRef}
         name="Name"
         section={
           <NameSection
@@ -249,6 +298,7 @@ export default function PatientDataForm({
         }
       />
       <SectionLayout
+        ref={birthdateRef}
         name="Date of Birth"
         section={
           <DatePicker
@@ -271,15 +321,73 @@ export default function PatientDataForm({
         }
       />
       <SectionLayout
-        name="Address"
+        ref={addressRef}
+        name="Primary Address"
         section={
           <AddressField
-            address={address}
+            address={addresses[0]}
             invalidFields={invalidAddressFields}
-            onChange={setAddress}
+            onChange={(a) => {
+              setAddresses([a].concat(addresses.slice(1)))
+            }}
           />
         }
+        additionalSection={
+          addresses.length === 1 ? (
+            <AddAdditionalAddress
+              onUpdateAddresses={() => {
+                setAddresses([
+                  ...addresses,
+                  { street: '', city: '', state: '', zipcode: '' },
+                ])
+              }}
+            />
+          ) : null
+        }
       />
+      {addresses.length > 1
+        ? addresses.slice(1).map((a, i) => (
+            <SectionLayout
+              key={i}
+              name={`Address ${(i + 2).toString()}`}
+              secondaryLabel=<div
+                className="text-xs text-red-600 cursor-pointer"
+                onClick={() => {
+                  setAddresses([
+                    ...addresses.slice(0, i + 1),
+                    ...addresses.slice(i + 2),
+                  ])
+                }}
+              >
+                Delete
+              </div>
+              section={
+                <AddressField
+                  address={a}
+                  onChange={(update) => {
+                    setAddresses([
+                      ...addresses.slice(0, i + 1),
+                      update,
+                      ...addresses.slice(i + 2),
+                    ])
+                  }}
+                />
+              }
+              additionalSection={
+                i === addresses.length - 2 ? (
+                  <AddAdditionalAddress
+                    onUpdateAddresses={() => {
+                      setAddresses([
+                        ...addresses,
+                        { street: '', city: '', state: '', zipcode: '' },
+                      ])
+                    }}
+                  />
+                ) : null
+              }
+            />
+          ))
+        : null}
       <SectionLayout
         name="Additional fields"
         section={

@@ -28,7 +28,11 @@ export default function PatientDataView({
   const patientNames = patients.map(({ name }) =>
     join([name.firstName, name.middleName, name.lastName], ' '),
   )
-  const cities = new Set(patients.map(({ address }) => address.city))
+  const cities = new Set(
+      patients.map(
+      ({ addresses }) => addresses[0].city
+    )
+  )
 
   return (
     <div className="flex flex-col items-center space-y-4 w-[660px]">

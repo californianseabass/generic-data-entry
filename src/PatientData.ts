@@ -63,13 +63,13 @@ export interface Patient {
   name: Name
   birthdate: Date
   status: Status
-  address: Address
+  addresses: Address[]
   additionalFields: AdditionalField[]
 }
 
 export function isPatient(obj: any): obj is Patient {
   return isName(obj?.name) &&
-    isAddress(obj?.address) &&
+    every(obj?.addresses, isAddress) &&
     includes(PATIENT_STATUS, obj?.status) &&
     every(obj?.additionalFields, isAdditionalField)
 }

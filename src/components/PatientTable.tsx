@@ -77,11 +77,11 @@ export default function PatientTable({
 
   const patientRows = useMemo(
     () =>
-      patients.map(({ name, birthdate, status, address }) => ({
+      patients.map(({ name, birthdate, status, addresses }) => ({
         name: join([name.firstName, name.middleName, name.lastName], ' '),
         birthdate: `${birthdate.getMonth() + 1}/${birthdate.getDate() + 1}/${birthdate.getFullYear()}`,
         status,
-        city: address.city,
+        city: addresses[0].city,
       })),
     [patients],
   )
