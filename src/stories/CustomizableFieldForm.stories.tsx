@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import CustomizableFieldForm from 'components/CustomizableFieldForm';
+import CustomizableFieldForm from 'components/PatientDataForm/CustomizableFieldForm';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {

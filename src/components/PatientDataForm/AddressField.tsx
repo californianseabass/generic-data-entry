@@ -1,4 +1,4 @@
-import TextField from './TextField'
+import TextField from '../TextField'
 import { EMPTY_ADDRESS, Patient } from 'PatientData'
 
 interface AddressFieldProps {

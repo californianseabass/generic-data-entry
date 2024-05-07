@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import RadioSelection from 'components/RadioSelection';
+import RadioSelection from 'components/PatientDataForm/RadioSelection';
 
 const meta = {
   title: 'components/RadioSelection',

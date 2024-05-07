@@ -1,7 +1,7 @@
 import cx from 'classnames'
 import { X } from 'phosphor-react'
 import { FormEvent, useEffect, useState } from 'react'
-import TextField from './TextField'
+import TextField from '../TextField'
 import { trim } from 'lodash'
 import { AdditionalField } from 'PatientData'
 import RadioSelection from './RadioSelection'

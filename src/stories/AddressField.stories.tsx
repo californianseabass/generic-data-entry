@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import AddressField from 'components/AddressField';
+import AddressField from 'components/PatientDataForm/AddressField';
 import { EMPTY_ADDRESS } from 'PatientData';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
