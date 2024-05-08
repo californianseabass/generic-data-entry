@@ -1,4 +1,4 @@
-import { Patient } from 'PatientData'
+import { Patient, PatientWithId } from 'PatientData'
 import PatientTable from 'components/PatientTable'
 import PatientTableControls from 'components/PatientTableControls'
 import { join } from 'lodash'
@@ -7,9 +7,11 @@ import { ReactNode, useState } from 'react'
 export default function PatientDataView({
   patients,
   GoToCreateNewPatientPage,
+  onPatientRowClick,
 }: {
-  patients: Patient[]
+  patients: PatientWithId[]
   GoToCreateNewPatientPage: ReactNode
+  onPatientRowClick: (patientId: string) => void
 }): JSX.Element {
   const [filterName, setFilterName] = useState<string | null>(null)
   const [filterAge, setFilterAge] = useState<number | null>(null)
@@ -52,8 +54,8 @@ export default function PatientDataView({
       />
       <PatientTable
         patients={patients}
-        nameFilter={filterName ?? undefined}
         filters={filters}
+        onPatientRowClick={onPatientRowClick}
       />
     </div>
   )

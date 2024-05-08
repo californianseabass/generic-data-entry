@@ -1,5 +1,6 @@
 import { Patient } from 'PatientData'
-import PatientDataForm, { CreateNewButton } from 'components/PatientDataForm'
+import PatientDataForm from 'components/PatientDataForm'
+import SubmitButton from 'components/PatientDataForm/SubmitButton'
 import { getAuth } from 'firebase/auth'
 import { collection, doc, setDoc, getFirestore } from 'firebase/firestore'
 import { PatientDocConverter } from 'firestoreDocs'
@@ -21,7 +22,9 @@ export default function CreatePatientPage(): JSX.Element {
   }, [])
 
   function handleCreatePatient(patient: Patient) {
-    const patientRef = doc(collection(db, 'patients')).withConverter(PatientDocConverter)
+    const patientRef = doc(collection(db, 'patients')).withConverter(
+      PatientDocConverter,
+    )
     const patientDoc = {
       patientId: patientRef.id,
       providers: [userId],
@@ -41,7 +44,7 @@ export default function CreatePatientPage(): JSX.Element {
         <h2 className="text-lg font-semibold ">Create New Patient</h2>
         <PatientDataForm
           onFormSubmit={handleCreatePatient}
-          submitButton={<CreateNewButton />}
+          submitButton={<SubmitButton label="Create" />}
         />
       </div>
     </div>

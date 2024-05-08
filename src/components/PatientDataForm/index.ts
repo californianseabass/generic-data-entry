@@ -1,1 +1,1 @@
-export { default, CreateNewButton } from './PatientDataForm'
+export { default } from './PatientDataForm'

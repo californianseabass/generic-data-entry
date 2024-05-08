@@ -74,6 +74,10 @@ export interface Patient {
   additionalFields: AdditionalField[]
 }
 
+export interface PatientWithId extends Patient {
+  patientId: string
+}
+
 export function isPatient(obj: any): obj is Patient {
   return isName(obj?.name) &&
     every(obj?.addresses, isAddress) &&

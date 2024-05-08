@@ -193,17 +193,6 @@ function AdditionalFieldsSection({
   )
 }
 
-export function CreateNewButton(): JSX.Element {
-  return (
-    <button
-      className="border rounded-md shadow-md bg-teal-600  text-white w-48 px-4 py-2"
-      type="submit"
-    >
-      Create
-    </button>
-  )
-}
-
 export default function PatientDataForm({
   patient,
   onFormSubmit,

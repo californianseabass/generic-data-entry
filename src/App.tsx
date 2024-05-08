@@ -1,5 +1,6 @@
 import AuthenticationPage from 'pages/AuthenticationPage'
 import CreatePatientPage from 'pages/CreatePatientPage'
+import EditPatientPage from 'pages/EditPatientPage'
 import Home from 'pages/HomePage'
 
 import React from 'react'
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
   {
     path: '/create',
     element: <CreatePatientPage />,
+  },
+  {
+    path: '/edit/:patientId',
+    element: <EditPatientPage />,
   },
 ])
 

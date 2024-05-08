@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import PatientDataForm, { CreateNewButton } from 'components/PatientDataForm'
+import PatientDataForm from 'components/PatientDataForm'
+import SubmitButton from 'components/PatientDataForm/SubmitButton'
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
@@ -19,7 +20,7 @@ type Story = StoryObj<typeof meta>
 
 export const Empty: Story = {
   args: {
-    submitButton: <CreateNewButton />,
+    submitButton: <SubmitButton label='Create'/>,
   },
 }
 
@@ -45,7 +46,7 @@ export const PatientOne: Story = {
         { name: 'Insolyn Readout', value: 77, type: 'number' },
       ],
     },
-    submitButton: <CreateNewButton />,
+    submitButton: <SubmitButton label='Done'/>,
   },
 }
 
@@ -69,6 +70,6 @@ export const MultiAddress: Story = {
         },
       ],
     },
-    submitButton: <CreateNewButton />,
+    submitButton: <SubmitButton label='Edit'/>,
   },
 }
