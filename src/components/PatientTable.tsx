@@ -137,7 +137,7 @@ export default function PatientTable({
       <tbody>
         {table.getRowModel().rows.map((row) => (
           <tr
-            className="group"
+            className="group cursor-pointer"
             onClick={() => {
               // get the first "hidden" first column in the table, and grab
               // it's value, which we will assume to be the patientId
