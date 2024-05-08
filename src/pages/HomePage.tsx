@@ -8,7 +8,9 @@ import { PatientWithId } from 'PatientData'
 function GoToCreateNewPatientPageButton(): JSX.Element {
   return (
     <NavLink to="/create">
-      <button>Create New Patient</button>
+      <button className="border rounded-md shadow-md p-2 text-sm text-white bg-teal-600">
+        Create New Patient
+      </button>
     </NavLink>
   )
 }
