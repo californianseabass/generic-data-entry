@@ -1,36 +1,28 @@
-# javascript-starter
+# Patient Data Take Home
 
-# how to
-
-## install yarn and vite
+## install
+Recommended to use node 18
 
 ``` sh
-nvm use 18
+npm install
 ```
 
+## Develop
+To view many of the view components and develop them, this project uses storybook.
+
 ``` sh
-yarn init -i=latest
+npm run storybook
 ```
 
+To run the application locally use vite. It will connect over the network to talk
+to the "production" services. You can optionally look into firebase emulator.
 ``` sh
-git init .
+npx vite
 ```
 
-Vite
+## Build
+
 ``` sh
-yarn add --dev vite
+npx vite build
 ```
 
-Typescript
-
-``` sh
-yarn add --dev typescript
-```
-
-## Emacs
-Install the language server wrapper, more in the [yarn documentation](https://yarnpkg.com/getting-started/editor-sdks#emacs).
-
-``` sh
-yarn dlx @yarnpkg/sdks base
-
-## add some files for vite

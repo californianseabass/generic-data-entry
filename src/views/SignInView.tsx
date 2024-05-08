@@ -8,6 +8,11 @@ import {
 import { MouseEvent, useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 
+/**
+ * We reuse this component, and vary the form submission handling logic
+ * and the text to distinguish between signing up and logging into an
+ * existing account.
+ */
 export default function SignInView({
   variant,
 }: {

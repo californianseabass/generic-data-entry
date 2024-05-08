@@ -5,6 +5,10 @@ import useAuthUser from 'hooks/useAuthUser'
 import usePatients from 'hooks/usePatients'
 import { PatientWithId } from 'PatientData'
 
+/**
+ * Because this component contains navigation logic we write at the top level and
+ * pass it down to the view that uses it, in order to keep a separation of concerns
+ */
 function GoToCreateNewPatientPageButton(): JSX.Element {
   return (
     <NavLink to="/create">
@@ -25,13 +29,17 @@ export default function HomePage(): JSX.Element {
   }, [])
 
   useEffect(() => {
+    // user is still loading
     if (userId === undefined) {
       return
     }
+    // user is not signed in
     if (userId === null) {
       navigate('/login')
       return
     }
+
+    // we can return the patients this user is a provider of
     return usePatients(userId, setPatients)
   }, [userId])
 

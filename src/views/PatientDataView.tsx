@@ -13,6 +13,9 @@ export default function PatientDataView({
   GoToCreateNewPatientPage: ReactNode
   onPatientRowClick: (patientId: string) => void
 }): JSX.Element {
+  // These hooks are used to share the information from the control component
+  // which is the UI to set filters and the table, which reacts to the
+  // filters to make the table searchable.
   const [filterName, setFilterName] = useState<string | null>(null)
   const [filterAge, setFilterAge] = useState<number | null>(null)
   const [filterStatus, setFilterStatus] = useState<Patient['status'] | null>(
@@ -31,6 +34,8 @@ export default function PatientDataView({
     join([name.firstName, name.middleName, name.lastName], ' '),
   )
 
+  // We only show the city for the "Primary Address", so we'll only
+  // allow the user to filter by those cities
   const cities = new Set(
     patients
       .filter(({ addresses }) => addresses.length > 0)
