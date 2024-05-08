@@ -92,9 +92,15 @@ export default function SignInView({
           </button>
           {variant === 'login' ? (
             <span className="fixed text-center align-middle ml-3 mt-2 text-sm text-zinc-400">
-              <NavLink to="/signup">First time? Sign up</NavLink>
+              <NavLink to="/signup">First time? Sign up here</NavLink>
             </span>
-          ) : null}
+          ) : (
+            <span className="fixed text-center align-middle ml-3 mt-2 text-sm text-zinc-400">
+              <NavLink to="/login">
+                Already have an account? Log in here
+              </NavLink>
+            </span>
+          )}
         </div>
       </form>
     </div>

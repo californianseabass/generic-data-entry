@@ -1,12 +1,11 @@
 import { Patient } from 'PatientData'
-import PatientDataForm from 'components/PatientDataForm'
-import SubmitButton from 'components/PatientDataForm/SubmitButton'
 import { collection, doc, getFirestore, updateDoc } from 'firebase/firestore'
 import { PatientDocConverter } from 'firestoreDocs'
 import useAuthUser from 'hooks/useAuthUser'
 import usePatient from 'hooks/usePatient'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import SinglePatientView from 'views/SinglePatientView'
 
 export default function EditPatientPage(): JSX.Element {
   const db = getFirestore()
@@ -69,15 +68,10 @@ export default function EditPatientPage(): JSX.Element {
   }
 
   return (
-    <div className="fixed inset-y-12 inset-x-0 flex justify-center overflow-scroll">
-      <div className="flex flex-col items-center space-y-4">
-        <h2 className="text-lg font-semibold ">Create New Patient</h2>
-        <PatientDataForm
-          patient={patient}
-          onFormSubmit={handleUpdatePatient}
-          submitButton={<SubmitButton label="Edit" />}
-        />
-      </div>
-    </div>
+    <SinglePatientView
+      patient={patient}
+      onFinish={handleUpdatePatient}
+      onSignOut={() => console.log('signout')}
+    />
   )
 }

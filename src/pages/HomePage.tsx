@@ -4,6 +4,7 @@ import PatientDataView from 'views/PatientDataView'
 import useAuthUser from 'hooks/useAuthUser'
 import usePatients from 'hooks/usePatients'
 import { PatientWithId } from 'PatientData'
+import PageLayout from 'components/PageLayout'
 
 /**
  * Because this component contains navigation logic we write at the top level and
@@ -52,12 +53,12 @@ export default function HomePage(): JSX.Element {
   }
 
   return (
-    <div className="fixed inset-0 flex pt-24 justify-center">
+    <PageLayout onSignOut={() => console.log('signout')}>
       <PatientDataView
         GoToCreateNewPatientPage={<GoToCreateNewPatientPageButton />}
         onPatientRowClick={(patientId) => navigate(`edit/${patientId}`)}
         patients={patients}
       />
-    </div>
+    </PageLayout>
   )
 }

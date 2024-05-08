@@ -43,25 +43,27 @@ export default function PatientDataView({
   )
 
   return (
-    <div className="flex flex-col items-center w-full max-w-[720px]">
-      <PatientTableControls
-        patientNames={patientNames}
-        name={filterName}
-        onChangeName={setFilterName}
-        status={filterStatus}
-        onChangeStatus={setFilterStatus}
-        age={filterAge}
-        onChangeAge={setFilterAge}
-        city={filterCity}
-        onChangeCity={setFilterCity}
-        cities={[...cities]}
-        actionButton={GoToCreateNewPatientPage}
-      />
-      <PatientTable
-        patients={patients}
-        filters={filters}
-        onPatientRowClick={onPatientRowClick}
-      />
+    <div className="flex w-full h-full justify-center">
+      <div className="flex flex-col items-center w-full max-w-[720px] pt-12">
+        <PatientTableControls
+          patientNames={patientNames}
+          name={filterName}
+          onChangeName={setFilterName}
+          status={filterStatus}
+          onChangeStatus={setFilterStatus}
+          age={filterAge}
+          onChangeAge={setFilterAge}
+          city={filterCity}
+          onChangeCity={setFilterCity}
+          cities={[...cities]}
+          actionButton={GoToCreateNewPatientPage}
+        />
+        <PatientTable
+          patients={patients}
+          filters={filters}
+          onPatientRowClick={onPatientRowClick}
+        />
+      </div>
     </div>
   )
 }
