@@ -1,9 +1,8 @@
-import { Patient, isPatient } from 'PatientData'
+import { PatientWithId, isPatient } from 'PatientData'
 import { FirestoreDataConverter, Timestamp } from 'firebase/firestore'
 import { every, isString } from 'lodash'
 
-export interface PatientDoc extends Omit<Patient, 'birthdate'> {
-  patientId: string
+export interface PatientDoc extends Omit<PatientWithId, 'birthdate'> {
   providers: string[]
   birthdate: Timestamp
 }
@@ -16,7 +15,7 @@ function isPatientDoc(obj: any): obj is PatientDoc {
   )
 }
 
-export const PatientDocConverter: FirestoreDataConverter<Patient> = {
+export const PatientDocConverter: FirestoreDataConverter<PatientWithId> = {
   toFirestore: (data: PatientDoc & { birthdate: Date }) => ({
     ...data,
     birthdate: Timestamp.fromDate(data.birthdate),

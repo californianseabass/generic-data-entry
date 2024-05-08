@@ -18,6 +18,7 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 const Sparrow = {
+  patientId: 'A',
   name: {
     firstName: 'Song',
     middleName: '',
@@ -35,6 +36,7 @@ const Sparrow = {
 }
 
 const Penguin = {
+  patientId: 'B',
   name: {
     firstName: 'Emperor',
     middleName: '',
@@ -55,6 +57,7 @@ const Penguin = {
 }
 
 const GoldFinch = {
+  patientId: 'C',
   name: {
     firstName: 'American',
     middleName: '',
@@ -76,6 +79,7 @@ const GoldFinch = {
 }
 
 const Chickadee = {
+  patientId: 'D',
   name: {
     firstName: 'Black-capped',
     middleName: '',
@@ -96,6 +100,7 @@ const Chickadee = {
 }
 
 const Steller = {
+  patientId: 'E',
   name: {
     firstName: "Steller's",
     middleName: 'Stellar',
@@ -116,6 +121,7 @@ const Steller = {
 }
 
 const SparrowB = {
+  patientId: 'F',
   name: {
     firstName: 'Rock',
     middleName: '&Roll',
@@ -133,6 +139,7 @@ const SparrowB = {
 }
 
 const SparrowTwo = {
+  patientId: 'G',
   name: {
     firstName: 'Common',
     middleName: 'Edward',

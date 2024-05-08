@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import PatientDataView from 'views/PatientDataView'
 import usePatients from 'hooks/usePatients'
-import { Patient } from 'PatientData'
+import { PatientWithId } from 'PatientData'
 
 function GoToCreateNewPatientPageButton(): JSX.Element {
   return (
@@ -16,7 +16,7 @@ function GoToCreateNewPatientPageButton(): JSX.Element {
 export default function HomePage(): JSX.Element {
   const [userId, setUserId] = useState<string>()
   const navigate = useNavigate()
-  const [patients, setPatients] = useState<Patient[]>([])
+  const [patients, setPatients] = useState<PatientWithId[]>([])
 
   useEffect(() => {
     const auth = getAuth()
@@ -42,6 +42,7 @@ export default function HomePage(): JSX.Element {
     <div className="fixed inset-0 flex pt-24 justify-center">
       <PatientDataView
         GoToCreateNewPatientPage={<GoToCreateNewPatientPageButton />}
+        onPatientRowClick={(patientId) => navigate(`edit/${patientId}`)}
         patients={patients}
       />
     </div>

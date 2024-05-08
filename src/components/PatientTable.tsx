@@ -5,7 +5,7 @@ import {
   getFilteredRowModel,
   useReactTable,
 } from '@tanstack/react-table'
-import { Patient, Status } from 'PatientData'
+import { PatientWithId, Status } from 'PatientData'
 import { isDate, join, trim } from 'lodash'
 import { useMemo } from 'react'
 
@@ -14,11 +14,12 @@ interface PatientRow {
   birthdate: string
   status: Status
   city: string
+  patientId: string
 }
 
 interface Filters {
   name?: string
-  status?: Patient['status']
+  status?: Status
   age?: number
   city?: string
 }
@@ -26,9 +27,11 @@ interface Filters {
 export default function PatientTable({
   patients,
   filters,
+  onPatientRowClick,
 }: {
-  patients: Patient[]
+  patients: PatientWithId[]
   filters?: Filters
+  onPatientRowClick: (patientId: string) => void
 }): JSX.Element {
   const columnHelper = createColumnHelper<PatientRow>()
 
@@ -50,6 +53,13 @@ export default function PatientTable({
   }, [filters])
 
   const columns = [
+    // This patient Id column will be skipped when rendering, and then pulled out
+    // to use for navigation purposes
+    columnHelper.accessor('patientId', {
+      id: 'patientId',
+      cell: (info) => info.getValue(),
+      header: 'PatientId',
+    }),
     columnHelper.accessor('name', {
       id: 'name',
       cell: (info) => info.getValue(),
@@ -75,11 +85,12 @@ export default function PatientTable({
 
   const patientRows = useMemo(
     () =>
-      patients.map(({ name, birthdate, status, addresses }) => ({
+      patients.map(({ patientId, name, birthdate, status, addresses }) => ({
         name: join([name.firstName, name.middleName, name.lastName], ' '),
         birthdate: `${birthdate.getMonth() + 1}/${birthdate.getDate() + 1}/${birthdate.getFullYear()}`,
         status,
         city: addresses[0].city,
+        patientId,
       })),
     [patients],
   )
@@ -107,7 +118,7 @@ export default function PatientTable({
       <thead>
         {table.getHeaderGroups().map((headerGroup) => (
           <tr key={headerGroup.id}>
-            {headerGroup.headers.map((header) => (
+            {headerGroup.headers.slice(1).map((header) => (
               <th
                 className="border border-1 border-zinc-300 p-1"
                 key={header.id}
@@ -125,14 +136,34 @@ export default function PatientTable({
       </thead>
       <tbody>
         {table.getRowModel().rows.map((row) => (
-          <tr className='group' key={row.id}>
+          <tr
+            className="group"
+            onClick={() => {
+              // get the first "hidden" first column in the table, and grab
+              // it's value, which we will assume to be the patientId
+              const patientId = row.getVisibleCells()[0].getContext().getValue()
+              if (typeof patientId === 'string') {
+                onPatientRowClick(patientId)
+              }
+            }}
+            key={row.id}
+          >
             {' '}
-            {row.getVisibleCells().map((cell) => (
-              <td className="border border-1 border-zinc-300 p-1 group-hover:bg-zinc-100" key={cell.id}>
-                {' '}
-                {flexRender(cell.column.columnDef.cell, cell.getContext())}{' '}
-              </td>
-            ))}{' '}
+            {row
+              .getVisibleCells()
+              .slice(1)
+              .map((cell) => (
+                <td
+                  className="border border-1 border-zinc-300 p-1 group-hover:bg-zinc-100"
+                  key={cell.id}
+                >
+                  {' '}
+                  {flexRender(
+                    cell.column.columnDef.cell,
+                    cell.getContext(),
+                  )}{' '}
+                </td>
+              ))}{' '}
           </tr>
         ))}
       </tbody>

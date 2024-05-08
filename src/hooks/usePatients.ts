@@ -1,4 +1,4 @@
-import { Patient } from 'PatientData'
+import { PatientWithId } from 'PatientData'
 import {
   collection,
   getFirestore,
@@ -10,7 +10,7 @@ import { PatientDocConverter } from 'firestoreDocs'
 
 export default function usePatients(
   userId: string,
-  onUpdatePatients: (patients: Patient[]) => void,
+  onUpdatePatients: (patients: PatientWithId[]) => void,
 ): () => void {
   const db = getFirestore()
   const queryForPatients = query(
