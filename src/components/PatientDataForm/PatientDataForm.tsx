@@ -1,4 +1,5 @@
 import cx from 'classnames'
+import { motion } from 'framer-motion'
 import * as Dialog from '@radix-ui/react-dialog'
 import {
   FormEvent,
@@ -78,6 +79,7 @@ function isNameInvalid(name: Patient['name']): boolean {
 
 interface SectionLayoutProps {
   name: string
+  sectionNumber: number
   secondaryLabel?: ReactNode
   section: ReactNode
   additionalSection?: ReactNode
@@ -87,9 +89,16 @@ const SectionLayoutFn: React.ForwardRefRenderFunction<
   HTMLDivElement,
   SectionLayoutProps
 > = (props, ref) => {
-  const { name, secondaryLabel, section, additionalSection } = props
+  const { name, sectionNumber, secondaryLabel, section, additionalSection } =
+    props
   return (
-    <div ref={ref} className="flex flex-row">
+    <motion.div
+      ref={ref}
+      className="flex flex-row"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: sectionNumber * 0.3, delay: sectionNumber * 0.5 }}
+    >
       <div className="shrink-0 w-24">
         <div className="mt-1 text-sm text-zinc-400">{name}</div>
         {secondaryLabel !== undefined ? secondaryLabel : null}
@@ -98,7 +107,7 @@ const SectionLayoutFn: React.ForwardRefRenderFunction<
         {section}
         {additionalSection !== undefined ? additionalSection : null}
       </div>
-    </div>
+    </motion.div>
   )
 }
 
@@ -316,6 +325,7 @@ export default function PatientDataForm({
       <SectionLayout
         ref={nameRef}
         name="Name"
+        sectionNumber={1}
         section={
           <NameSection
             name={name}
@@ -327,6 +337,7 @@ export default function PatientDataForm({
       <SectionLayout
         ref={birthdateRef}
         name="Date of Birth"
+        sectionNumber={1}
         section={
           <DatePicker
             errorMessage={invalidBirthdate ? 'Required' : undefined}
@@ -338,6 +349,7 @@ export default function PatientDataForm({
       />
       <SectionLayout
         name="Status"
+        sectionNumber={2}
         section={
           <RadioSelection
             choices={PATIENT_STATUS}
@@ -349,6 +361,7 @@ export default function PatientDataForm({
       />
       <SectionLayout
         ref={addressRef}
+        sectionNumber={2}
         name="Primary Address"
         section={
           <AddressField
@@ -381,6 +394,7 @@ export default function PatientDataForm({
             <SectionLayout
               key={i}
               name={`Address ${(i + 2).toString()}`}
+              sectionNumber={i + 2}
               secondaryLabel=<div
                 className="text-xs text-red-600 cursor-pointer"
                 onClick={() => {
@@ -426,6 +440,7 @@ export default function PatientDataForm({
         : null}
       <SectionLayout
         name="Additional fields"
+        sectionNumber={2 + additionalFields.length + 1}
         section={
           <AdditionalFieldsSection
             additionalFields={additionalFields}
