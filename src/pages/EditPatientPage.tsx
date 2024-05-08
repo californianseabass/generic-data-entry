@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import SinglePatientView from 'views/SinglePatientView'
 import { signOut } from './utils'
+import SubmitButton from 'components/PatientDataForm/SubmitButton'
 
 export default function EditPatientPage(): JSX.Element {
   const db = getFirestore()
@@ -76,6 +77,8 @@ export default function EditPatientPage(): JSX.Element {
 
   return (
     <SinglePatientView
+      title="Patient Data"
+      SubmitButton={<SubmitButton label="Edit" />}
       patient={patient}
       onBack={() => navigate('/')}
       onFinish={handleUpdatePatient}
