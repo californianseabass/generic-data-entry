@@ -128,9 +128,9 @@ export default function PatientTable({
                   : flexRender(
                       header.column.columnDef.header,
                       header.getContext(),
-                    )}{' '}
+                    )}
               </th>
-            ))}{' '}
+            ))}
           </tr>
         ))}
       </thead>
@@ -148,7 +148,6 @@ export default function PatientTable({
             }}
             key={row.id}
           >
-            {' '}
             {row
               .getVisibleCells()
               .slice(1)
@@ -157,13 +156,9 @@ export default function PatientTable({
                   className="border border-1 border-zinc-300 p-1 group-hover:bg-zinc-100"
                   key={cell.id}
                 >
-                  {' '}
-                  {flexRender(
-                    cell.column.columnDef.cell,
-                    cell.getContext(),
-                  )}{' '}
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
-              ))}{' '}
+              ))}
           </tr>
         ))}
       </tbody>
