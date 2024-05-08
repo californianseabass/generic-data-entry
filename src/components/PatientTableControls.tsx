@@ -80,9 +80,9 @@ export default function PatientTableControls(
   const [isShowAdvancedOptions, setIsShowAdvancedOptions] = useState(false)
 
   return (
-    <div className="flex flex-col space-y-2 py-3 w-full border border-zinc-300 rounded-md">
-      <div className="flex justify-between pr-4">
-        <div className="flex space-x-3 px-4 items-center">
+    <div className="flex flex-col justify-center space-y-2 py-3 w-full border border-zinc-300 bg-zinc-100">
+      <div className="flex justify-between pr-4 flex-wrap">
+        <div className="flex space-x-3 px-4 items-center flex-wrap">
           <div className="flex items-center">
             <MagnifyingGlass className="text-lg m-2" />
             <Autocomplete

@@ -114,7 +114,7 @@ export default function PatientTable({
   })
 
   return (
-    <table>
+    <table className="w-full">
       <thead>
         {table.getHeaderGroups().map((headerGroup) => (
           <tr key={headerGroup.id}>

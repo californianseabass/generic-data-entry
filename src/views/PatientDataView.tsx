@@ -38,7 +38,7 @@ export default function PatientDataView({
   )
 
   return (
-    <div className="flex flex-col items-center space-y-4 w-[660px]">
+    <div className="flex flex-col items-center w-full max-w-[720px]">
       <PatientTableControls
         patientNames={patientNames}
         name={filterName}
