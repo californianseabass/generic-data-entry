@@ -5,6 +5,7 @@ import useAuthUser from 'hooks/useAuthUser'
 import usePatients from 'hooks/usePatients'
 import { PatientWithId } from 'PatientData'
 import PageLayout from 'components/PageLayout'
+import { signOut } from './utils'
 
 /**
  * Because this component contains navigation logic we write at the top level and
@@ -43,6 +44,11 @@ export default function HomePage(): JSX.Element {
     // we can return the patients this user is a provider of
     return usePatients(userId, setPatients)
   }, [userId])
+  function handleSignOut(): void {
+    signOut(() => {
+      navigate('/login')
+    })
+  }
 
   if (userId === undefined) {
     return <div>Loading</div>
@@ -53,7 +59,7 @@ export default function HomePage(): JSX.Element {
   }
 
   return (
-    <PageLayout onSignOut={() => console.log('signout')}>
+    <PageLayout onSignOut={handleSignOut}>
       <PatientDataView
         GoToCreateNewPatientPage={<GoToCreateNewPatientPageButton />}
         onPatientRowClick={(patientId) => navigate(`edit/${patientId}`)}

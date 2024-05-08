@@ -5,6 +5,7 @@ import useAuthUser from 'hooks/useAuthUser'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import SinglePatientView from 'views/SinglePatientView'
+import { signOut } from './utils'
 
 export default function CreatePatientPage(): JSX.Element {
   const db = getFirestore()
@@ -33,6 +34,11 @@ export default function CreatePatientPage(): JSX.Element {
     setDoc(patientRef, patientDoc)
     navigate('/')
   }
+  function handleSignOut(): void {
+    signOut(() => {
+      navigate('/login')
+    })
+  }
 
   if (userId === undefined) {
     return <div>Loading...</div>
@@ -45,7 +51,7 @@ export default function CreatePatientPage(): JSX.Element {
   return (
     <SinglePatientView
       onFinish={handleCreatePatient}
-      onSignOut={() => console.log('signout')}
+      onSignOut={handleSignOut}
     />
   )
 }

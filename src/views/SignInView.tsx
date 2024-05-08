@@ -31,8 +31,7 @@ export default function SignInView({
     event.preventDefault()
 
     createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        console.log(userCredential)
+      .then(() => {
         navigate('/')
       })
       .catch((error) => {

@@ -6,6 +6,7 @@ import usePatient from 'hooks/usePatient'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import SinglePatientView from 'views/SinglePatientView'
+import { signOut } from './utils'
 
 export default function EditPatientPage(): JSX.Element {
   const db = getFirestore()
@@ -59,6 +60,12 @@ export default function EditPatientPage(): JSX.Element {
       })
   }
 
+  function handleSignOut(): void {
+    signOut(() => {
+      navigate('/login')
+    })
+  }
+
   if (patient === undefined) {
     return <div>Loading...</div>
   }
@@ -71,7 +78,7 @@ export default function EditPatientPage(): JSX.Element {
     <SinglePatientView
       patient={patient}
       onFinish={handleUpdatePatient}
-      onSignOut={() => console.log('signout')}
+      onSignOut={handleSignOut}
     />
   )
 }
