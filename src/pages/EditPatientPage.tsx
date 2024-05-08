@@ -49,7 +49,7 @@ export default function EditPatientPage(): JSX.Element {
       birthdate: patient.birthdate,
       addresses: patient.addresses,
       status: patient.status,
-      additionalField: patient.additionalFields,
+      additionalFields: patient.additionalFields,
     })
       .then(() => navigate('/'))
       .catch((err) => {

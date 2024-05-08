@@ -154,12 +154,14 @@ function AdditionalFieldsSection({
       {additionalFields.map((f, i) => (
         <TextField
           optional
+          type={f.type === 'number' ? 'number' : ''}
           onChange={(e) => {
             const fields = [
               ...additionalFields.slice(0, i),
               {
                 ...f,
-                value: e.target.value,
+                value:
+                  f.type === 'number' ? Number(e.target.value) : e.target.value,
               },
               ...additionalFields.slice(i + 1),
             ]

@@ -19,6 +19,8 @@ export default function CustomizableField({
   const [type, setType] = useState<number>(0)
   const [value, setValue] = useState<number | string>('')
 
+  const [error, setError] = useState<string>()
+
   useEffect(() => {
     if (nameFieldError) {
       setNameFieldError(undefined)
@@ -42,11 +44,18 @@ export default function CustomizableField({
       })
       return
     }
-    if (fieldType === 'number' && typeof value === 'number') {
+    if (
+      fieldType === 'number' &&
+      (value === undefined || trim(value.toString()) === '')
+    ) {
+      setError('Numerical fields need an initial value')
+      return
+    }
+    if (fieldType === 'number') {
       onCreateCustomizableField({
         name,
         type: fieldType,
-        value,
+        value: Number(value),
       })
       return
     }
@@ -80,7 +89,12 @@ export default function CustomizableField({
         onChange={(e) => setValue(e.target.value)}
         label="Value"
       />
-      <div>
+      <div className="relative">
+        {error !== undefined ? (
+          <div className="absolute top-0 left-1 text-red-600 text-sm">
+            {error}
+          </div>
+        ) : null}
         <button
           disabled={name === ''}
           className={cx(
