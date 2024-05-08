@@ -1,7 +1,7 @@
-import { getAuth } from 'firebase/auth'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import PatientDataView from 'views/PatientDataView'
+import useAuthUser from 'hooks/useAuthUser'
 import usePatients from 'hooks/usePatients'
 import { PatientWithId } from 'PatientData'
 
@@ -14,21 +14,20 @@ function GoToCreateNewPatientPageButton(): JSX.Element {
 }
 
 export default function HomePage(): JSX.Element {
-  const [userId, setUserId] = useState<string>()
+  const [userId, setUserId] = useState<string | null>()
   const navigate = useNavigate()
   const [patients, setPatients] = useState<PatientWithId[]>([])
 
   useEffect(() => {
-    const auth = getAuth()
-    if (auth.currentUser === null) {
-      navigate('/login')
-    } else {
-      setUserId(auth.currentUser.uid)
-    }
+    return useAuthUser(setUserId)
   }, [])
 
   useEffect(() => {
     if (userId === undefined) {
+      return
+    }
+    if (userId === null) {
+      navigate('/login')
       return
     }
     return usePatients(userId, setPatients)
@@ -36,6 +35,10 @@ export default function HomePage(): JSX.Element {
 
   if (userId === undefined) {
     return <div>Loading</div>
+  }
+
+  if (userId === null) {
+    return <div>User not signed in</div>
   }
 
   return (

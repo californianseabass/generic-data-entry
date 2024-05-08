@@ -1,9 +1,9 @@
 import { Patient } from 'PatientData'
 import PatientDataForm from 'components/PatientDataForm'
 import SubmitButton from 'components/PatientDataForm/SubmitButton'
-import { getAuth } from 'firebase/auth'
 import { collection, doc, getFirestore, updateDoc } from 'firebase/firestore'
 import { PatientDocConverter } from 'firestoreDocs'
+import useAuthUser from 'hooks/useAuthUser'
 import usePatient from 'hooks/usePatient'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -11,13 +11,20 @@ import { useNavigate, useParams } from 'react-router-dom'
 export default function EditPatientPage(): JSX.Element {
   const db = getFirestore()
   const navigate = useNavigate()
+  const [userId, setUserId] = useState<string | null>()
   const [patient, setPatient] = useState<Patient | null>()
 
   const { patientId } = useParams()
 
   useEffect(() => {
-    const auth = getAuth()
-    if (auth.currentUser === null) {
+    return useAuthUser(setUserId)
+  })
+
+  useEffect(() => {
+    if (userId === undefined) {
+      return () => {}
+    }
+    if (userId === null) {
       navigate('/login')
       return () => {}
     } else if (patientId == null) {
