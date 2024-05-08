@@ -33,7 +33,7 @@ export default function EditPatientPage(): JSX.Element {
     } else {
       return usePatient(patientId, setPatient)
     }
-  }, [])
+  }, [userId])
 
   function handleUpdatePatient(patient: Patient) {
     if (patientId === undefined) {
@@ -77,6 +77,7 @@ export default function EditPatientPage(): JSX.Element {
   return (
     <SinglePatientView
       patient={patient}
+      onBack={() => navigate('/')}
       onFinish={handleUpdatePatient}
       onSignOut={handleSignOut}
     />

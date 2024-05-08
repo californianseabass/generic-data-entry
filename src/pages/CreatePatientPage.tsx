@@ -50,6 +50,7 @@ export default function CreatePatientPage(): JSX.Element {
 
   return (
     <SinglePatientView
+      onBack={() => navigate('/')}
       onFinish={handleCreatePatient}
       onSignOut={handleSignOut}
     />
