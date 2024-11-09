@@ -1,4 +1,4 @@
-# Patient Data Take Home
+# Generic data entry
 
 ## install
 Recommended to use node 18
